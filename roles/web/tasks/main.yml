@@ -3,108 +3,6 @@
   notify:
     - restart apache2
 
-- name: Apache | Enable default ssl
-  action: command a2ensite default-ssl
-  notify:
-      - restart apache2
-
-# would be best to use array and a single .conf and ssl.conf file
-# for .conf just need the following:
-#    DocumentRoot /srv/projects/zf1-pimple/public
-#    ServerName www.imat2.com
-
-
-- name: apache | add vhost(s)
-  template:
-    src: '../templates/template.conf.j2'
-    dest: "/etc/apache2/sites-available/{{item.dest}}.conf"
-  with_items:
-    - { dest: 'imat2',
-        docroot: '/srv/projects/zf1-pimple/public',
-        servername: 'www.imat2.com' }
-    - { dest: 'test',
-        docroot: '/srv/projects/test',
-        servername: 'www.test.com' }
-  notify:
-    - restart apache2
-
-- name: apache | add ssl vhost(s)
-  template:
-    src: '../templates/template-ssl.conf.j2'
-    dest: "/etc/apache2/sites-available/{{item.dest}}.conf"
-  with_items:
-    - { dest: 'imat2-ssl',
-        ipaddress: '192.168.33.10',
-        docroot: '/srv/projects/zf1-pimple/public',
-        servername: 'www.imat2.com' }
-    - { dest: 'test-ssl',
-        ipaddress: '192.168.33.10',
-        docroot: '/srv/projects/test',
-        servername: 'www.test.com' }
-#    - { src: '../templates/imat2-ssl.conf.j2', dest: '/etc/apache2/sites-available/imat2-ssl.conf' }
-  notify:
-    - restart apache2
-
-#- name: apache | vhost - imat
-#  template:
-#    src: imat2.conf.j2
-#    dest: "/etc/apache2/sites-available/imat2.conf"
-#    owner: root
-#    group: root
-#    mode: 0644
-#  notify:
-#    - restart apache2
-#
-#- name: apache | vhost - ssl - imat
-#  template:
-#    src: imat2-ssl.conf.j2
-#    dest: "/etc/apache2/sites-available/imat2-ssl.conf"
-#    owner: root
-#    group: root
-#    mode: 0644
-#  notify:
-#    - restart apache2
-#
-#- name: apache | vhost - test
-#  template:
-#    src: test.conf.j2
-#    dest: "/etc/apache2/sites-available/test.conf"
-#    owner: root
-#    group: root
-#    mode: 0644
-#  notify:
-#    - restart apache2
-#
-#- name: apache | vhost - ssl - test
-#  template:
-#    src: test-ssl.conf.j2
-#    dest: "/etc/apache2/sites-available/test-ssl.conf"
-#    owner: root
-#    group: root
-#    mode: 0644
-#  notify:
-#    - restart apache2
-#
-- name: Apache | Enable imat2
-  action: command a2ensite imat2
-  notify:
-      - restart apache2
-
-- name: Apache | Enable imat2 ssl
-  action: command a2ensite imat2-ssl
-  notify:
-      - restart apache2
-
-- name: Apache | Enable test
-  action: command a2ensite test
-  notify:
-      - restart apache2
-
-- name: Apache | Enable test ssl
-  action: command a2ensite test-ssl
-  notify:
-      - restart apache2
-
 - name: Apache | Enable ssl module
   action: command a2enmod ssl
   notify:
@@ -114,3 +12,37 @@
   action: command a2enmod rewrite
   notify:
       - restart apache2
+
+- name: apache | add vhost(s)
+  template:
+    src: '../templates/template.conf.j2'
+    dest: "/etc/apache2/sites-available/{{item.dest}}.conf"
+  with_items: webconfig
+  notify:
+    - restart apache2
+
+- name: apache | add ssl vhost(s)
+  template:
+    src: '../templates/template-ssl.conf.j2'
+    dest: "/etc/apache2/sites-available/{{item.dest}}-ssl.conf"
+  with_items: webconfig
+  notify:
+    - restart apache2
+
+#- name: Apache | enable sites
+#  action: command a2ensite default-ssl
+#  with_items: webconfig
+#  notify:
+#    - restart apache2
+
+- name: Apache | enable sites
+  action: command a2ensite {{item.dest}}
+  with_items: webconfig
+  notify:
+    - restart apache2
+
+- name: Apache | enable ssl sites
+  action: "command a2ensite {{item.dest}}-ssl"
+  with_items: webconfig
+  notify:
+    - restart apache2

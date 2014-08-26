@@ -10,45 +10,45 @@
 #    - common
     - web
 
-#  tasks:
-#    - name: php | Install packages/s
-#      apt: pkg={{ item }} state=installed
-#      with_items:
-#        - php5
-#        - php5-sqlite
-#        - php5-mcrypt
-#        - php5-mysql
-#        - php5-xdebug
-#        - php5-ldap
-#        - php5-curl
-#      notify:
-#        - restart apache2
-#
-#    - name: mysql | Install package/s
-#      apt: pkg={{ item }} state=installed
-#      with_items:
-#        - mysql-server
-#        - python-mysqldb # needed for ansibles mysql support
-#
-#    - name: mysql | Ensure MySql is running
-#      action: service name=mysql state=started
-#
-##    - name: mysql | Remove the test database
-##      mysql_db: name=test state=absent
-#
-#    - name: 3. start Apache
-#      service: name=apache2 state=running enabled=yes
-#
-#
-#    - name: 4. install Hello World PHP script
-#      copy: src=index.php dest=/var/www/html/index.php mode=0664
-#
-#    - name: apache | xdebug
-#      template:
-#        src: xdebug.j2
-#        dest: "/etc/php5/mods-available/xdebug.ini"
-#        owner: root
-#        group: root
-#        mode: 0644
-#      notify:
-#        - restart apache2
+  tasks:
+    - name: php | Install packages/s
+      apt: pkg={{ item }} state=installed
+      with_items:
+        - php5
+        - php5-sqlite
+        - php5-mcrypt
+        - php5-mysql
+        - php5-xdebug
+        - php5-ldap
+        - php5-curl
+      notify:
+        - restart apache2
+
+    - name: mysql | Install package/s
+      apt: pkg={{ item }} state=installed
+      with_items:
+        - mysql-server
+        - python-mysqldb # needed for ansibles mysql support
+
+    - name: mysql | Ensure MySql is running
+      action: service name=mysql state=started
+
+#    - name: mysql | Remove the test database
+#      mysql_db: name=test state=absent
+
+    - name: 3. start Apache
+      service: name=apache2 state=running enabled=yes
+
+
+    - name: 4. install Hello World PHP script
+      copy: src=index.php dest=/var/www/html/index.php mode=0664
+
+    - name: apache | xdebug
+      template:
+        src: xdebug.j2
+        dest: "/etc/php5/mods-available/xdebug.ini"
+        owner: root
+        group: root
+        mode: 0644
+      notify:
+        - restart apache2
