@@ -1,0 +1,13 @@
+<VirtualHost *:80>
+    DocumentRoot /srv/projects/test
+    ServerName www.test.com
+
+    # Other directives here ...
+    <Directory "/srv/projects/test">
+        Options Indexes FollowSymLinks
+        AllowOverride All
+
+        Require all granted
+        Allow from all
+    </Directory>
+</VirtualHost>

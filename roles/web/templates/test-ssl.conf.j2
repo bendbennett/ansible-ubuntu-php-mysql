@@ -1,0 +1,18 @@
+<IfModule mod_ssl.c>
+        <VirtualHost 192.168.33.10:443>
+                ServerName www.test.com:443
+
+                SSLEngine on
+                SSLCertificateFile      /etc/ssl/certs/ssl-cert-snakeoil.pem
+                SSLCertificateKeyFile /etc/ssl/private/ssl-cert-snakeoil.key
+
+                DocumentRoot /srv/projects/test
+
+                <Directory /srv/projects/test>
+                        SSLOptions +StdEnvVars
+                        Options Indexes FollowSymLinks
+                        AllowOverride All
+                        Require all granted
+                </Directory>
+        </VirtualHost>
+</IfModule>

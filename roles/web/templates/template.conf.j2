@@ -1,0 +1,11 @@
+<VirtualHost *:80>
+    DocumentRoot {{item.docroot}}
+    ServerName {{item.servername}}
+    DirectoryIndex index.php
+    <Directory "{{item.docroot}}">
+        Options Indexes FollowSymLinks
+        AllowOverride All
+        Require all granted
+        Allow from all
+    </Directory>
+</VirtualHost>

@@ -1,0 +1,18 @@
+<IfModule mod_ssl.c>
+        <VirtualHost {{item.ipaddress}}:443>
+                ServerName {{item.servername}}:443
+
+                SSLEngine on
+                SSLCertificateFile      /etc/ssl/certs/ssl-cert-snakeoil.pem
+                SSLCertificateKeyFile /etc/ssl/private/ssl-cert-snakeoil.key
+
+                DocumentRoot {{item.docroot}}
+
+                <Directory {{item.docroot}}>
+                        SSLOptions +StdEnvVars
+                        Options Indexes FollowSymLinks
+                        AllowOverride All
+                        Require all granted
+                </Directory>
+        </VirtualHost>
+</IfModule>
