@@ -13,7 +13,7 @@
 #    - restart apache2
 
 - name: Apache | install
-  apt: name=apache2 state=present
+  apt: name=apache2 state=present update_cache=yes
   notify:
     - restart apache2
 
@@ -49,6 +49,7 @@
 
 - name: Apache | enable ssl sites
   action: "command a2ensite {{item.dest}}-ssl"
+  when: item.ssl
   with_items: vhost
   notify:
     - restart apache2

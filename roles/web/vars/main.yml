@@ -4,9 +4,10 @@ vhost:
     docroot: '/srv/projects/zf1-pimple/public'
     servername: 'www.imat2.com'
     ipaddress: '192.168.33.10'
+    ssl: true
   - name: "test.dev"
     dest: 'test'
     docroot: '/srv/projects/test'
     servername: 'www.test.com'
     ipaddress: '192.168.33.10'
-
+    ssl: false

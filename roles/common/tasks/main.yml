@@ -1,2 +1,0 @@
-- name: 0. apt-get update
-  apt: update_cache=yes

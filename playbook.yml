@@ -5,14 +5,17 @@
   user: vagrant
   sudo: yes
   sudo_user: root
+  vars_files:
+    - test.yml
+#  vars:
+#    ipaddress: 192.168.33.10
 
   roles:
-#    - common
     - web
 
   tasks:
     - name: php | Install packages/s
-      apt: pkg={{ item }} state=installed
+      apt: pkg={{ item }} state=installed update_cache=yes
       with_items:
         - php5
         - php5-sqlite
@@ -25,7 +28,7 @@
         - restart apache2
 
     - name: mysql | Install package/s
-      apt: pkg={{ item }} state=installed
+      apt: pkg={{ item }} state=installed update_cache=yes
       with_items:
         - mysql-server
         - python-mysqldb # needed for ansibles mysql support
