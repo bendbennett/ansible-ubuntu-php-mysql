@@ -1,4 +1,4 @@
-webconfig:
+vhost:
   - name: "imat.dev"
     dest: 'imat2'
     docroot: '/srv/projects/zf1-pimple/public'
@@ -9,3 +9,4 @@ webconfig:
     docroot: '/srv/projects/test'
     servername: 'www.test.com'
     ipaddress: '192.168.33.10'
+

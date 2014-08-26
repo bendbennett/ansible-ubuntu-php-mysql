@@ -1,0 +1,54 @@
+# General apache config
+# 1. install apache
+# 2. enable modules (e.g., ssl, rewrite)
+# 3. add vhost(s)
+# 4. enable vhost(s)
+# 5. enable ssl vhost(s)
+#
+# NOTE - default ssl site is not enable
+#- name: Apache | enable sites
+#  action: command a2ensite default-ssl
+#  with_items: webconfig
+#  notify:
+#    - restart apache2
+
+- name: Apache | install
+  apt: name=apache2 state=present
+  notify:
+    - restart apache2
+
+- name: Apache | enable module(s)
+  action: command a2enmod {{ item }}
+  with_items:
+    - ssl
+    - rewrite
+  notify:
+      - restart apache2
+
+- name: Apache | add vhost(s)
+  template:
+    src: '../templates/template.conf.j2'
+    dest: "/etc/apache2/sites-available/{{item.dest}}.conf"
+  with_items: vhost
+  notify:
+    - restart apache2
+
+- name: Apache | add ssl vhost(s)
+  template:
+    src: '../templates/template-ssl.conf.j2'
+    dest: "/etc/apache2/sites-available/{{item.dest}}-ssl.conf"
+  with_items: vhost
+  notify:
+    - restart apache2
+
+- name: Apache | enable sites
+  action: command a2ensite {{item.dest}}
+  with_items: vhost
+  notify:
+    - restart apache2
+
+- name: Apache | enable ssl sites
+  action: "command a2ensite {{item.dest}}-ssl"
+  with_items: vhost
+  notify:
+    - restart apache2
