@@ -1,0 +1,19 @@
+- name: php | Install packages/s
+  apt: pkg={{ item }} state=installed update_cache=yes
+  with_items:
+    - php5
+    - php5-sqlite
+    - php5-mcrypt
+    - php5-mysql
+    - php5-xdebug
+    - php5-ldap
+    - php5-curl
+  notify:
+    - restart apache2
+
+- name: PHP | enable module(s)
+  action: command php5enmod {{ item }}
+  with_items:
+    - mcrypt
+  notify:
+    - restart apache2

@@ -3,11 +3,14 @@ vhost:
     dest: 'imat2'
     docroot: '/srv/projects/zf1-pimple/public'
     servername: 'www.imat2.com'
-    ipaddress: "{{vagrant_vm_ip_address}}"
     ssl: true
   - name: "test.dev"
     dest: 'test'
     docroot: '/srv/projects/test'
     servername: 'www.test.com'
-    ipaddress: "{{vagrant_vm_ip_address}}"
     ssl: false
+  - name: "learning-laravel.local"
+    dest: 'learning-laravel'
+    docroot: '/srv/projects/learning-laravel/public'
+    servername: 'learning-laravel.local'
+    ssl: true

@@ -1,5 +1,5 @@
 <IfModule mod_ssl.c>
-        <VirtualHost {{vagrant_vm_ip_address}}:443>
+        <VirtualHost *:443>
                 ServerName {{item.servername}}:443
 
                 SSLEngine on
